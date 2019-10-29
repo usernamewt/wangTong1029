@@ -1,0 +1,463 @@
+{{extend '../_layout/layout.html'}}
+{{ block 'style'}}
+<style type="text/css">
+	#fixed-btn{
+		position: fixed;
+		right: 1%;
+		bottom: 5%;
+		width: 40px;
+		background-color: white;
+		font-size: 24px;
+		z-index: 1040;
+		/* -webkit-backface-visibility: hidden; */
+	}
+</style>
+	
+{{ /block}}
+{{block 'content'}}
+	<!-- 按钮组 -->
+	<div id="fixed-btn">
+		<button type="button" class="btn btn-default" title="回到顶部" id="toTop" style="display: none;"><span class="glyphicon glyphicon-chevron-up"></span></button>
+		<button type="button" class="btn btn-default" title="关注我们"data-toggle="modal" data-target="#erweima"><span class="glyphicon glyphicon-qrcode"></span></button>
+		<button type="button" class="btn btn-default" title="发布帖子" data-toggle="modal" data-target="#addModel"><span class="glyphicon glyphicon-plus"></span></button>
+	</div>
+	
+	<div id="addModel" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				{{if user}}
+				<div class="modal-header">
+					<h2>请选择帖子类型，不选择默认为日常哦</h2>
+				</div>
+				<div class="modal-body" id="choseType">
+					<!--  -->
+					{{each type}}
+					<a href="#" class="btn" title="{{$value.topictype}}">{{$value.topictype}}</a>
+					{{/each}}
+					<!-- 取消了添加按钮 -->
+					<!-- <a href="#" class="btn" id="addType" onclick="addnewtype"><span class="glyphicon glyphicon-plus"></span></a> -->
+					<div class="panel panel-defalut">
+					<div class="panel-heading">
+						<div class="panel-title">
+							<h3><a href="javascript:">发布动态</a></h3>
+						</div>
+					</div>
+					<!-- 将Ajax提交注释后title和container又提交不了了 -->
+						<form id="topic_form" enctype="multipart/form-data">
+								<input type="hidden" name="picPath" value="{{ user.pic }}" id="picPath">
+								<input type="hidden" name="type" id="typeid" value="">
+								<input type="hidden" name="user"  value="" id="user"/>
+								<div class="form-group">
+									<input type="text" name="title"  value="" placeholder="标题" class="form-control"id="title"/>
+								</div>
+								<div class="form-group">
+									<input id="files" type="file" name="topPic" style="width: 60px;height: 34px;opacity: 0;padding: 0;margin: 0;" multiple>
+									<span class="filefont" style="margin-top: -32px;
+									width: 60px;
+									display: block;
+									line-height: 34px;
+									cursor:pointer;
+									border: 1px solid #31b0d5;
+									border-left: 1px dotted #31b0d5;
+									text-align: center;">上传图片</span>
+								</div>
+								<div class="form-group">
+									<textarea rows="4" cols="30" name="container"placeholder="请输入要BB的内容" class="form-control" id="container">
+										
+									</textarea>
+								</div>
+							
+							<!-- <div class="col-md-3">
+								
+							</div> -->
+							<div class="form-group">
+								<input type="submit" value="发布" class="btn btn-default form-control">
+								<div class="alert alert-warning" style="display: none;" id="ok">
+									<span class="close" data-dismiss="alert">&times;</span>
+									<p>发布成功</p>
+								</div>
+								<div class="alert alert-warning" style="display: none;" id="selfinfo">
+									<span class="close" data-dismiss="alert">&times;</span>
+									<p>请先<a href="/selfinfo.html">设置</a>个人头像哦</p>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				{{else}}
+					<div class="modal-header">
+						<h2>您还没有<a href="/">登录</a>哦</h2>
+					</div>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="erweima">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h2>联系作者</h2>
+						</div>
+						<div class="modal-body">
+							<img src="../public/img/二维码.jpg" class="img-thumbnail" width="550px" >
+						</div>
+					</div>
+				</div>
+			</div>
+		  
+<div style="margin-top: 40px;">
+			<!-- 三个进度条样式
+			<h1 class="page-header">
+				<div class="progress">
+					<div class=" active progress-bar progress-bar-info progress-bar-striped" style="width: 30%;"></div>
+					<div class=" active progress-bar  progress-bar-warning progress-bar-striped" style="width: 40%;"></div>
+					<div class=" active progress-bar progress-bar-danger progress-bar-striped" style="width: 30%;"></div>
+				</div>
+				<div class="progress">
+					<div class=" active progress-bar progress-bar-info progress-bar-striped" style="width: 30%;"></div>
+					<div class=" active progress-bar  progress-bar-warning progress-bar-striped" style="width: 40%;"></div>
+					<div class=" active progress-bar progress-bar-danger progress-bar-striped" style="width: 30%;"></div>
+				</div>
+				<div class="progress">
+					<div class=" active progress-bar progress-bar-info progress-bar-striped" style="width: 30%;"></div>
+					<div class=" active progress-bar  progress-bar-warning progress-bar-striped" style="width: 40%;"></div>
+					<div class=" active progress-bar progress-bar-danger progress-bar-striped" style="width: 30%;"></div>
+				</div>
+			</h1> -->
+		<!-- 左侧面板 -->
+		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+		<!-- Indicators -->
+		  <ol class="carousel-indicators">
+		    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		    <!-- <li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
+		  </ol>
+		
+		  <!-- Wrapper for slides -->
+		  <div class="carousel-inner" role="listbox">
+		    <div class="item active">
+		      <img src="../public/img/轮播图2.jpg" width="100%">
+		      <div class="carousel-caption">
+		        <h3>椅子拖鞋论坛</h3>
+				<p>明德厚学</p>
+		      </div>
+		    </div>
+		    <!-- <div class="item">
+		      <img src="../public/img/轮播图07.jpg" width="90%">
+		      <div class="carousel-caption">
+		        <p>我是轮播图</p>
+		      </div>
+		    </div> -->
+		    <div class="item">
+		      <img src="../public/img/轮播图1.jpg" width="100%">
+		      <div class="carousel-caption">
+		        <h3>毕业设计</h3>
+		        <p>天天向上</p>
+		      </div>
+		    </div>
+		  </div>
+		
+		  <!-- Controls -->
+		  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		    <span class="sr-only">Previous</span>
+		  </a>
+		  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		    <span class="sr-only">Next</span>
+		  </a>
+		</div>
+		
+		<div style="margin-top: 50px;" class="container">
+		
+		<div class="col-md-3">
+			<h2 class="page-haeder">添加好友</h2>
+			<div class="panel-group" id="pans">
+				<!-- 处理好友申请 -->
+				<div class="panel panel-defalut">
+					<div class="panel-heading">
+						{{if check}}
+						<div class="panel-title">
+							<h3><a href="javascript:">好友申请</a></h3>
+						</div>
+						{{else}}
+							<div class="panel-title">
+								<h3><a href="javascript:">好友申请</a></h3>
+							</div>
+						{{/if}}
+					</div>
+					<div class="panel-body">
+						<span></span>
+						
+						{{each check}}
+						<form action="/accept?my={{$value.my}}" method="post">
+							<fieldset disabled>
+								<div class="form-group">
+									<input type="text" value="{{$value.my}}" class="form-control">
+								</div>
+							</fieldset>
+								<input type="submit" class="btn btn-warning" value="同意">
+								<input type="button" name="" class="btn btn-info" id="" value="忽略" />
+						</form>
+						{{/each}}
+					</div>
+				</div>
+				
+				<!--  添加好友 -->
+			
+				<div class="panel panel-defalut">
+						<div class="panel-heading">
+							<div class="panel-title">
+								<h3><a href="javascript:">添加好友</a></h3>
+							</div>
+						</div>
+						{{if user}}
+						<div class="panel-body">
+							<form id="add">
+								<input type="hidden" name="my" value="">
+								<div class="from-group form-inline">
+									<input type="text" name="friendName" value=""  class="form-control"/>
+									<input type="submit" name=""  value="添加" class="btn btn-info btn-sm"/>
+								</div>
+								<input type="hidden" value="">
+								<input type="text" name="friendid" value="" style="display: none;">
+								
+								<div class="alert alert-info" style="display: none;"id="info">
+									<span class="close" data-dismiss="alert">&times;</span>
+									<p>已经发送好友请求</p>
+								</div>
+								<div class="alert alert-info" style="display: none;"id="uncheck">
+									<span class="close" data-dismiss="alert">&times;</span>
+									<p>好友已经收到你的邀请啦</p>
+								</div>
+								<div class="alert alert-danger" style="display: none;" id="nopeolpe">
+									<span class="close" data-dismiss="alert">&times;</span>
+									<p>没有这位小可爱哦</p>
+								</div>
+								<div class="alert alert-warning" style="display: none;" id="repeat">
+									<span class="close" data-dismiss="alert">&times;</span>
+									<p>已经发送过好友申请了哦</p>
+								</div>
+								<div class="alert alert-warning" style="display: none;" id="selfadd">
+									<span class="close" data-dismiss="alert">&times;</span>
+									<p>不能添加自己为好友哦，黑</p>
+								</div>
+							</form>
+						</div>
+						{{else}}
+						<div class="panel-body">
+							<p>您还没有<a href="/">登录</a>哦</p>
+						</div>
+						{{/if}}
+			
+				</div>
+			
+			</div>
+			<h2 class="page-header">热门活动</h2>
+			<div class="thumbnail">
+				<img src="../public/img/img/row.gif" width="100%">
+				<div class="caption">
+					<h3><a href="/topicimg">记录你的生活</a></h3>
+				</div>
+			</div>
+			<div class="thumbnail">
+				<img src="../public/img/img/row1.gif" width="100%">
+				<div class="caption">
+					<h3><a href="http://www.myubbs.com/">加入我们成为作者</a></h3>
+				</div>
+			</div>
+			<div class="thumbnail">
+				<img src="../public/img/img/row2.gif" width="100%">
+				<div class="caption">
+					<h3><a href="http://www.lagou.com">找工作点这里</a></h3>
+					<h3><a href="https://www.qichacha.com//">不放心公司状况点这里</a></h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+				
+			<div class="contain">
+			<!-- 热门帖子 -->
+			<!-- 热门帖子-图片 -->
+			<div class="row">
+				
+				<div class="row">
+				{{each titles}}
+				  <div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      <img src="../upLoadpic/{{$value.topPic}}" style="height: 200px; width: 100%; display: block;">
+				      <div class="caption">
+				        <p>{{$value.container}}</p>
+				        <p style="display: flex;justify-content: space-between;">
+							<a href="javascript:;" class="btn btn-success" role="button" style="display: flex;flex-direction: column;">
+								<span>发布时间</span>
+								<span>{{$value.dataTime}}</span>
+							</a>
+							<a href="/dianzan_main?topic={{ $value._id }}" class="btn btn-danger" role="button" style="display: flex;flex-direction: column;">
+								<span class="glyphicon glyphicon-heart"></span>
+								<span>{{$value.isFaver}}</span>
+							</a>
+						</p>
+				      </div>
+				    </div>
+				  </div>
+				  {{/each}}
+				  
+				</div>
+				<!-- 热门帖子除图片 -->
+				{{each type types index}}
+					<h3 class="page-header text-danger">
+						{{types.topictype}}
+					</h1>
+					{{each titles title index}}
+					<!-- {{if types.topictype === title.type}} -->
+					<div id="{{title.type}}">
+							<div style="border-bottom:1px dotted #C1E2B3;padding:5px;margin-top: 10px;height: 80px;">
+								<a style="float: left;" >
+									<img src="../avater/{{title.picPath}}" class="img-circle" width="40px" >
+								</a>
+								<div style="display: inline-block;width: 30%;margin-left:20px ;"> 
+									<!-- 帖子标题 -->
+									<p style="color: #888888;">{{title.title}} {{title.dataTime}}</p>
+									<!-- 发表时间展示 -->
+									<!-- 帖子内容 -->
+									<p style="display: inline-block;">{{title.container}}</p> 
+								</div>
+								
+								<div style="display: inline-block;float: right;width: 40px;height: 20px;">
+									<span style="color: #888888;">评论:{{title.commons}}</span>
+									<span style="color: #888888;">点赞:{{title.isFaver}}</span>
+								</div>
+								
+							</div>
+					</div>
+					<!-- {{else}}
+					{{/if}} -->
+					{{/each}}
+				{{/each}}
+					
+				
+			</div>
+					
+		</div>
+			
+		</div>
+		<!-- <div class="col-md-3"> -->
+			<!-- <div class="list-group">
+				<a href="" class="list-group-item">收到的点赞<span class="badge">0</span></a>
+				<a href="" class="list-group-item">好友动态<span class="badge">0</span></a>
+				<a href="" class="list-group-item">收到的评论<span class="badge">0</span></a>
+			</div> -->
+			
+			
+		<!-- </div> -->
+</div>			
+			
+{{/block}}
+{{block 'script'}}
+<script src="../public/js/holder.js">
+	
+</script>
+	<script type="text/javascript">
+		$('#pans .panel-body').hide();
+		$('#pans .panel-title').mouseenter(function(){
+			$(this).parent().next().stop().slideDown(1000);
+			$('#pans .panel-body').not($(this).parent().next()).stop().slideUp(1000);
+		})
+		
+		// 添加好友
+		$('#add').on('submit',function(e){
+			e.preventDefault()
+			var FormData=$(this).serialize()
+			$.ajax({
+				url:'/addnew',
+				type:'post',
+				data:FormData,
+				dataType:'json',
+				success:function(data){
+					var code=data.err_code
+					if(code===500){
+						alert('Server err!!!')
+					}
+					if(code===1){
+						$('#info').show()
+					}
+					if(code===2){
+						$('#uncheck').show()
+					}
+					if(code===501){
+						alert('Save err')
+					}
+					if(code===3){
+						$('#nopeolpe').show()
+					}
+					if(code===4){
+						$('#repeat').show()
+					}
+					if(code===5){
+						$('#selfadd').show()
+					}
+					if(code===502){
+						alert('不能添加自己为好友')
+					}
+				}
+			})
+		})
+		
+		$("#choseType a").click(function(){
+			$(this).removeClass('btn-default').addClass('btn-info').siblings("a").removeClass('btn-info').addClass('btn-deafult')
+			// 实现方式,在a链接中绑定title属性,当点击按钮的时候把当前的title传递给typeid的value中,当表单上传的时候type属性就已经绑定了value值url中传递
+			$("#typeid").attr('value',$(this).attr('title'))
+			// console.log($("#typeid").attr('name'))
+		})
+		// 由于formiable会执行parse方法,所以ajax中的serialize与之冲突,应该是serialize无法解析图片格式所以无法将图片作为body体提交给服务器
+		$('#topic_form').on('submit',function(e){
+			var formData = new FormData();
+			formData.append("topPic",$('#files')[0].files[0])
+			formData.append("picPath",$('#picPath').val())
+			formData.append("typeid",$('#typeid').val())
+			formData.append("user",$('#user').val())
+			formData.append("title",$('#title').val())
+			formData.append("container",$('#container').val())
+			e.preventDefault()
+			console.log(formData)
+			$.ajax({
+				url:'/newtopic',
+				processData:false,
+				contentType:false,
+				type:'post',
+				data:formData,
+				// dataType:'json',
+				success:function(data){
+					var code=data.err_code
+					if(code===0){
+						$('#ok').show()
+						window.location.href='/'
+					}
+					if(code===1){
+						$('#selfinfo').show()
+					}
+					else if(code===500){
+						alert('Server err')
+					}
+				}
+			})
+		})
+		
+		
+		$(window).scroll(function () {
+		  if($(window).scrollTop() >= 300 ){
+		    $("#toTop").stop().fadeIn();
+		  }else {
+		    $("#toTop").stop().fadeOut();
+		  }
+		});
+		$("#toTop").click(function () {
+		  $("html,body").stop().animate({scrollTop:0},2000);
+		  //scrollTop为0
+		  $(window).scrollTop(0);
+		})
+	</script>
+{{/block}}
+

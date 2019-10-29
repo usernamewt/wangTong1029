@@ -1,0 +1,149 @@
+{{extend '../_layout/layout.html'}}
+
+{{block 'content'}}
+<div class="container" style="margin-top: 40px;">
+	<h1 class="page-header">
+		论坛帖子管理
+	</h1>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<!-- {{each types}}
+                        <th>{{$value.topictype}}</th>
+                        {{/each}} -->
+				<th>标题</th>
+				<th>内容</th>
+				<th>类型</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{each topics}}
+			<tr>
+				<td>{{ $value.title }}</td>
+				<td>{{ $value.title }}</td>
+				<td>{{ $value.type }}</td>
+				<td><a href="#">删除</a></td>
+			</tr>
+			{{/each}}
+
+		</tbody>
+	</table>
+</div>
+<div class="container">
+	<h1 class="page-header">论坛用户管理</h1>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<!-- {{each types}}
+                        <th>{{$value.topictype}}</th>
+                        {{/each}} -->
+				<th>昵称</th>
+				<th>创建时间</th>
+				<th>状态</th>
+				<th>删除</th>
+				<th>禁言</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{each users}}
+			<tr>
+				<td>{{ $value.nickname }}</td>
+				<td>{{ $value.created_time }}</td>
+				<!-- 用户类型 -->
+				{{ if $value.status == 0 }}
+				<td>管理员</td>
+				{{ else if $value.status == 1 }}
+				<td>禁言</td>
+				{{ else if $value.status == 2 }}
+				<td>普通用户</td>
+				{{ /if }}
+				<!-- 用户操作 -->
+				
+				<!-- 判断用户是否可以被删除 -->
+				{{ if $value.status == 0}}
+				<td><a href="/admin.html">管理员无法删除</a></td>
+				{{ else if $value.status == 1}}
+				<td><a href="/deluser?user={{$value.nickname}}">删除</a></td>
+				{{ else if $value.status == 2}}
+				<td><a href="/deluser?user={{$value.nickname}}">删除</a></td>
+				{{/if}}
+				<!-- 用户状判断禁言状态 -->
+				{{if $value.status == 2 }}
+				<td><a href="/stopTalking?user={{$value.nickname}}">禁言</a></td>
+				{{else if $value.status == 1 }}
+				<td><a href="/goTalking?user={{$value.nickname}}">取消禁言</a></td>
+				{{else if $value.status == 0}}
+				<td><a href="/admin.html">不支持禁言</a></td>
+				{{/if}}
+				
+				<!-- 用户升级 -->
+			</tr>
+			{{/each}}
+
+		</tbody>
+	</table>
+</div>
+<div class="container">
+	<h1 class="page-header">
+		帖子类型管理
+	</h1>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>类型</th>
+				<th>删除</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{{each types}}
+			<tr>
+				<td>{{ $value.topictype }}</td>
+				<td><a href="/delType?type={{ $value.topictype }}">删除</a></td>
+			</tr>
+			{{/each}}
+
+		</tbody>
+	</table>
+
+
+	<form id="typeadd" class="form-inline" role="form">
+
+		<div class="form-group">
+			<label class="sr-only" for="">label</label>
+			<input type="text" class="form-control" id="" placeholder="添加类型" name="topictype">
+		</div>
+
+
+
+		<button type="submit" class="btn btn-primary">添加</button>
+	</form>
+
+
+</div>
+
+
+{{/block}}
+
+{{ block 'script'}}
+
+<script>
+	$('#typeadd').on('submit', function(e) {
+		e.preventDefault()
+		var formData = $(this).serialize()
+		$.ajax({
+			url: '/typeadd',
+			data: formData,
+			dataType: 'json',
+			method: 'post',
+			success: function(data) {
+				var code = data.err_code
+				if (code === 1) {
+					window.location.href = '/admin.html'
+				}
+			}
+		})
+	})
+</script>
+{{/block}}

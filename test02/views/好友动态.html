@@ -1,0 +1,140 @@
+{{extend '../_layout/layout.html'}}
+		{{block 'content'}}
+		
+		<div class="boxs" style="margin: 60px 20px 0px;">
+			<div class="row">
+				{{if user}}
+				
+				{{if friend}}
+					
+						<div class="col-md-3">
+							<form action="" method="post">
+								<div class="from-group form-inline">
+									<input type="text" name="friendname" class="form-control" style="display: inline;width: 100%;margin-bottom: 5px;">
+									<input type="submit" class="btn btn-info" style="display: inline; width: 100%;margin-bottom: 5px" value="查找好友">
+								</div>
+							</form>
+							
+							{{each friend}}
+							<a href="detail?name={{$value.my}}"  class="btn btn-warning btn-block" value="">
+							{{$value.my}}</a>
+							{{/each}}
+							<div class="list-group">
+								<a href="" class="list-group-item">收到的点赞<span class="badge">20</span></a>
+								<a href="" class="list-group-item">好友动态<span class="badge">20</span></a>
+								<a href="" class="list-group-item">收到的评论<span class="badge">2</span></a>
+							</div>
+						</div>
+				{{else}}
+					<p>您还没有好友哦<a href="/">添加</a>一个吧</p>
+				{{/if}}
+				<div class="col-md-9" id="tops">
+					
+						{{each titles}}
+							<div class="panel panel-warning">
+								<div class="panel-heading">
+									<img src="../avater/{{$value.picPath}}" class="img-circle" width="50px" >
+									<a href="#" style="float: right;text-align: center;text-decoration: none;" class="text-muted">{{$value.dataTime}}</a>
+								</div>
+								<div class="panel-body" >
+									<p>{{$value.title}}</p><hr />
+									<p style="font-family: 楷体;font-size: large;">{{$value.container}}</p>
+									<hr />
+									{{set tit=$value._id}}
+									{{set num=$value.commons}}
+									{{set isFaver=$value.isFaver}}
+									{{if comment}}
+									<!-- 使用ul完善回复 -->
+									<ul style="list-style: none;" id="uls">
+										{{each comment}}
+											{{if tit.equals($value.topic)}}
+												<li><p style="display: inline;">{{$value.speaker}}</p>回复:{{$value.towho}}<a href=""
+												data-toggle="modal" data-target="#modaltop" id="speak">{{$value.pinglun}}</a></li>
+											{{else}}
+											{{/if}}
+										{{/each}}
+									</ul>
+										{{each comment}}
+											{{if tit.equals($value.topic)}}
+												<!-- <p>{{$value.speaker}}回复:{{$value.towho}}测试用:{{$value._id}}<a href=""
+												data-toggle="modal" data-target="#modaltop" id="speak">{{$value.pinglun}}</a></p>
+												<div id="modaltop" class="modal fade">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-body">
+																<form action="talk?_id={{$value.topic}}&comments={{$value._id}}" method="post">
+																	<div class="form-group">
+																		<input type="text" name="pinglun" id="" value="" class="form-control"
+																		placeholder="回复{{$value.speaker}}:{{$value._id}}" />
+																	</div>
+																	<input type="submit" name="" id="" value="diss back" class="btn btn-info">
+																</form>
+															</div>
+														</div>
+													</div>
+												</div> -->
+											{{else}}
+											{{/if}}
+										{{/each}}
+									{{else}}
+										<p>还没有评论哦，快抢占沙发吧</p>
+									{{/if}}
+								</div>
+								<div class="panel-footer" >
+										<form action="talk?_id={{$value._id}}" method="post" id="answer" class="row">
+											<div class="form-group col-md-7">
+												<input type="text" name="pinglun" id="" class="form-control" value="" placeholder="请输入要BB的内容"/>
+											</div>
+											<div class="form-group col-md-2">
+												<input type="submit" name="" value="回复" class="btn btn-warning form-control" />
+											</div>
+											<div class="form-group col-md-3">
+													<a class="btn btn-sm btn-info" href="/dianzan?topic={{ $value._id }}"><span class="glyphicon glyphicon-heart" ></span>{{isFaver}}</a>
+													<a class="btn btn-sm btn-info"><span class="glyphicon glyphicon-comment" ></span>{{num}}</a>
+											</div>
+										</form>
+								</div>
+							</div>
+							
+						
+						{{/each}}	
+					<!-- {{each titles}}
+					<div class="panel-group">
+						
+					</div>
+					{{/each}} -->
+				</div>
+				
+				{{else}}
+				<h1 class="page-header">
+					您还没有<a href="/">登录</a>哦
+				</h1>
+				{{/if}}
+			</div>
+		</div>
+		{{/block}}
+			
+		{{block 'script'}}
+		
+			<script type="text/javascript">
+				$(function(){
+					var idxcon=$("#tops .panel").index()
+					// $("#tops .panel").mouseenter(function(){
+					// 	console.log(idxcon)
+					// })
+					
+					var idx=$("#uls>li").index()
+					$("#uls>li").click(function(){
+						console.log($(this).eq(idx).children("a").text())
+						$("#answer .col-md-7>input").val("回复"+$(this).eq(idx).children("p").text()+":")
+					})
+					$("#answer .col-md-7>input").click(function(){
+						$(this).val("")
+					})
+				})
+				
+
+				
+			</script>
+			
+		{{/block}}

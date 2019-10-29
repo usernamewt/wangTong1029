@@ -1,0 +1,76 @@
+{{extend '../_layout/layout.html'}}
+		{{block 'content'}}
+		{{if friend}}
+		<div class="container">
+			<div class="row" style="margin-top: 50px;">
+				<div class="col-md-5">
+					<img src="../avater/{{friend.pic}}" width="300px">
+				</div>
+				<div class="col-md-7">
+					<p>{{friend.aboutMe}}</p>
+				</div>
+			</div>
+			{{each titles}}
+			<div class="panel-group" id="pan">
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<img src="../avater/{{$value.picPath}}" class="img-circle" width="50px" >
+						<a href="#" style="float: right;text-align: center;">{{$value.dataTime}}</a>
+					</div>
+					<div class="panel-body" >
+						<p>{{$value.title}}</p><hr />
+						<p style="font-family: 楷体;font-size: large;">{{$value.container}}</p>
+						<hr />
+						{{set tit=$value._id}}
+						{{set num=$value.commons}}
+						{{set isFaver=$value.isFaver}}
+						{{if comment}}
+			
+							{{each comment}}
+								{{if tit.equals($value.topic)}}
+									<p>{{$value.speaker}}回复:{{$value.towho}}<!-- 测试用:{{$value._id}} --><a href=""
+									data-toggle="modal" data-target="#modaltop">{{$value.pinglun}}</a></p>
+									<div id="modaltop" class="modal fade">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-body">
+													<form action="talk?_id={{$value.topic}}&comments={{$value._id}}" method="post">
+														<div class="form-group">
+															<input type="text" name="pinglun" id="" value="" class="form-control"
+															placeholder="回复{{$value.speaker}}:{{$value._id}}" />
+														</div>
+														<input type="submit" name="" id="" value="diss back" class="btn btn-info">
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								{{else}}
+								{{/if}}
+							{{/each}}
+						{{else}}
+							<p>还没有评论哦，快抢占沙发吧</p>
+						{{/if}}
+					</div>
+					<div class="panel-footer" >
+							<form action="talk?_id={{$value._id}}" method="post" id="answer" class="row">
+								<div class="form-group col-md-7">
+									<input type="text" name="pinglun" id="" class="form-control" value="" />
+								</div>
+								<div class="form-group col-md-2">
+									<input type="submit" name="" value="回复" class="btn btn-warning form-control" />
+								</div>
+								<div class="form-group col-md-3">
+									<label><img src="../public/img/common.jpg" width="40px" >{{num}}  <img id="im" src="../public/img/zan.jpg" width="40px" >{{isFaver}}</label>
+								</div>
+							</form>
+					</div>
+				</div>
+			</div>
+			
+			{{/each}}
+		</div>
+		{{else}}
+			<p style="margin-top: 50px;">非法进入，需要提前登陆</p>
+		{{/if}}
+		{{/block}}

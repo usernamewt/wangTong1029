@@ -1,0 +1,232 @@
+<nav class="navbar navbar-default navbar-fixed-top" style="margin-top: -3px  >
+				<div class="navbar-header">
+					<a href="#" class="navbar-brand">
+						<img src="./avater/logo.png" style="height:49px;margin-top: -10px; margin-left: -10px;"/>
+					</a>
+					<button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mynavs"><span class="glyphicon glyphicon-align-justify"></span></button>
+					<!-- <span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span> -->
+				</div>
+				<div id="mynavs" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/">论坛首页</a></li>
+					<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">财贸论坛<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+						{{each type}}
+						<li><a href="#">{{ $value.topictype }}</a></li>
+						{{/each}}
+                     
+                    </ul>
+					
+					
+					
+					
+					
+					<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">校园助手<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					   <li><a href="http://www.aftvc.com/bgxx_xl.asp?id=509">校历查询</a></li>
+					    <li class="divider"></li>
+					    <li><a href="http://220.178.74.88/teachingweb/">成绩查询</a></li>
+					    <li class="divider"></li>
+					    <li><a href="http://220.178.74.88/teachingweb/">学籍查询</a></li>
+					    <li class="divider"></li>
+					    <li><a href="http://www.aftvc.com/bgxx_xndhview.asp?id=501">电话查询</a></li>
+					    <li class="divider"></li>
+					    <li><a href="http://220.178.74.76:88/zzrsc/zytz.asp">政策信息</a></li>
+					</ul>
+					{{if user}}
+					<li><a href="chatroom.html">一起聊天</a></li>
+					{{else}}
+					<li><a href="chatroom.html" style="display: none;">一起聊天</a></li>
+					{{/if}}
+					<li><a href="info.html">公告公示</a></li>
+					</ul>
+					
+					
+					
+					{{if user}}
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:0px;margin-top:5px">
+									<img src="../avater/{{user.pic}}" style="width:40px;display:inline-block;size-box-size" class="img-rounded" /></a>
+									<ul class="dropdown-menu">
+										<li><a href="selfinfo.html" ><span class="glyphicon glyphicon-user"></span>个人中心</a></li>
+										<li><a href="friend.html"><span class="glyphicon glyphicon-heart"></span>我的关注</a></li>
+										{{if user.status == 0}}
+										<li><a href="admin.html"><span class="glyphicon glyphicon-log-out"></span>欢迎管理员</a></li>
+										{{else if user.status == 1}}
+										<li class="disabled"><a href="/"><span class="glyphicon glyphicon-ban-circle"></span>您已经被禁言</a></li>
+										{{else if user.status == 2}}
+										<li><a href="/"><span class="glyphicon glyphicon-fire"></span>欢迎回来</a></li>
+										{{/if}}
+										<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span>退出</a></li>
+									</ul>
+							</li>
+							
+							<li><a href="">{{user.nickname}}</a></li>
+							<li><a href="">欢迎登陆椅子拖鞋论坛</a></li>
+						</ul>
+					{{else}}
+						
+						<form action=""class="navbar-form navbar-right">
+							<div class="form-group">
+								<div class="input-group">
+								  <input type="text" class="form-control" id="exampleInputAmount" style="margin-left: 35px" placeholder="请输入你要搜索的内容">
+								  <div class="input-group-addon">
+										 <span class="glyphicon   glyphicon-search" style="margin-left: 35px" ></span>
+								  </div>
+								</div>
+							  </div>
+							<input type="button" class="btn btn-default" data-toggle="modal" data-target="#malogin" value="登录">
+							<input type="button" class="btn btn-default " data-toggle="modal" data-target="#mymodals" value="注册"/>
+						</form>
+						
+						<!-- 模态框 -->
+				
+					
+					{{/if}}
+					
+					
+				</div>
+
+		</nav>
+		
+		
+		<!-- 模态框内容 -->
+		<div id="malogin" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						HELLO
+					</div>
+					<div class="modal-body">
+							<form id="login_form" >
+								<div class="form-group input-group">
+									<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+									<input type="text" class="form-control" name="nickname" placeholder="Your name"/>
+								</div>
+								<div class="form-group input-group">
+									<div class="input-group-addon"><span class="glyphicon glyphicon-barcode"></span></div>
+									<input type="password" class="form-control" name="password" placeholder="密码"/>
+								</div>
+								<div class="form-group">
+									<input type="submit" value="登录" class="btn btn-info form-control" />
+									<div class="alert alert-danger" id="nameerr" style="display: none;">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>用户名或不存在(3秒钟后刷新本页面)</p>
+									</div>
+								</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						GIAO
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 实现注册 -->
+		<div id="mymodals" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="close" data-dismiss="modal">&times;</div>
+							<p>用户快捷注册</p>
+						</div>
+						<div class="modal-body">
+							<!-- 提交注册信息 -->
+							<form id="reg_form">
+								<!-- 输入内容 -->
+								<!-- 用户名 -->
+								
+								<div class="form-gourp input-group">
+									<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+									<input type="text" name="nickname" id="nick" value="" placeholder="用户名" class="form-control"/>
+									<div class="alert alert-danger" style="display: none;" id="alertadmin">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>昵称已被占用,3秒后刷新页面</p>
+									</div>
+								</div>
+								<!-- 密码 -->
+								<div class="form-group input-group" style="margin-top: 10px;">
+									<div class="input-group-addon"><span class="glyphicon glyphicon-barcode"></span></div>
+									<input type="text" name="password" id="password" value="" placeholder="密码" class="form-control"/>
+									<div class="alert alert-danger" style="display: none;" id="alertspass">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>密码在9-17位，包含数字和字母,3秒钟后刷新本页面</p>
+									</div>
+								</div>
+								<!-- 手机号 -->
+								<div class="form-gorup input-group" >
+									<div class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></div>
+									<input type="text" name="phone" id="phone" value="" placeholder="手机号" class="form-control"/>
+									<div class="alert alert-danger" style="display: none;" id="alertphone">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>请输入正确的手机号,3秒后刷新页面</p>
+									</div>
+									<div class="alert alert-danger" style="display: none;"id="rePhone">
+										<span class="close" data-dismiss="alert"  >&times;</span>
+										<p>该手机号已被注册,3秒钟后刷新页面</p>
+									</div>
+									<div class="alert alert-success" style="display: none;" id="codeget">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>验证码已经发送，请输入</p>
+									</div>
+								</div>
+								<!-- 验证码 -->
+								<div class="form-group" style="display: none; margin-top: 10px;" id="code">
+									<input type="text" name="code"  placeholder="验证码" class="form-control">
+									<div class="alert alert-success" style="display: none;">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>验证码输入成功,3秒后进入主页面</p>
+									</div>
+									<div class="alert alert-danger"style="display: none;" id="code_err">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>验证码输入错误,3秒钟后会重新刷新</p>
+									</div>
+								</div>
+								
+								
+								
+								
+								<!-- 按钮组和提示框 -->
+								<!-- 确认昵称和密码 -->
+								<!--获取验证码-->
+								<div class="form-group" id="code_get" style="margin-top: 10px;">
+									<input type="button" value="获取验证码" class="form-control btn btn-success" >
+									<div class="alert alert-danger"style="display: none;" id="emp">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>输入内容不能为空</p>
+									</div>
+								</div>
+
+								<!-- 确认验证码(注册按钮) -->
+								<div class="form-group" style="display: none;" id="checode">
+									<input type="button" value="确定" class="form-control btn btn-warning"/>
+									<div class="alert alert-success" style="display: none;" id="alerts">
+										<span class="close" data-dismiss="alert">&times;</span>
+										<p>注册成功</p>
+									</div>
+								</div>
+
+								<!-- 重置按钮 -->
+								<div class="form-group">
+									<input type="reset" name="" id="" value="重置" class="form-control btn btn-warning"/>
+								</div>
+								
+							</form>
+							
+
+							
+
+						</div>
+						<div class="modal-footer">
+							<p>欢迎注册</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		

@@ -1,0 +1,49 @@
+{{extend '../_layout/layout.html'}}
+
+{{block 'content'}}
+
+	<div class="container" style="margin-top: 40px;">
+		<h1 class="page-header">公告栏</h1>
+		<div class="col-md-6">
+				<ul class="list-group">
+					<a href="#" class="list-group-item list-group-item-info">
+						<h2>测试运行</h2>
+						<p>椅子放拖鞋3.0发帖子看帖子版</p>
+					</a>
+					<a href="#" class="list-group-item list-group-item-info">
+						<h2>测试运行</h2>
+						<p>椅子放拖鞋v4.0头像修改</p>
+					</a>
+					<a href="#" class="list-group-item list-group-item-info">
+						<h2>测试运行</h2>
+						<p>椅子放拖鞋V5.0添加好友，好友动态</p>
+					</a>
+				</ul>
+			</div>
+		<div class="col-md-6">
+				<ul class="list-group">
+					<a href="#" class="list-group-item list-group-item-info">
+						<h2>测试运行</h2>
+						<p>椅子放拖鞋v5.1基本bug修改版</p>
+					</a>
+					<a href="#" class="list-group-item list-group-item-info">
+						<h2>测试运行</h2>
+						<p>鞋子放拖鞋v6回复楼主</p>
+					</a>
+					<a href="#" class="list-group-item list-group-item-info">
+						<h2>测试运行</h2>
+						<p>椅子放拖鞋v7测试版</p>
+					</a>
+				</ul>
+			</div>
+	</div>
+	<div class="container">
+		
+	</div>
+{{if user}}
+	
+{{else}}
+	<h1 class="page-header">您还没<a href="/">登录</a>哦</h1>
+{{/if}}
+{{/block}}
+	

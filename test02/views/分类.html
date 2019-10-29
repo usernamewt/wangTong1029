@@ -1,0 +1,26 @@
+{{extend '../_layout/layout.html'}}
+		{{block 'content'}}
+	
+		{{each topics}}
+			<div style="border-bottom:1px dotted #C1E2B3;padding-bottom:5px;margin-top: 60px;">
+				<div style="display: inline;">
+					<img src="../avater/{{$value.picPath}}" class="img-circle" width="80px" >
+				</div>
+				<div style="display: inline-block;width: 30%;">
+					<!-- 帖子标题 -->
+					<p style="color: #888888;">{{$value.title}}</p>
+					<!-- 发表时间展示 -->
+					<!-- <p style="display: inline-block;">{{$value.dataTime}}</p> -->
+					<!-- 帖子内容 -->
+					<p style="display: inline-block;">{{$value.container}}</p>
+				</div>
+				
+				<div style="float: right;width: 40px;height: 20px;">
+					<span style="color: #888888;">评论:{{$value.commons}}</span>
+					<span style="color: #888888;">点赞:{{$value.isFaver}}</span>
+				</div>
+				
+			</div>
+		{{/each}}
+			
+		{{/block}}
