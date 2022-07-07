@@ -24,7 +24,7 @@
     "file-loader": "^4.2.0",
     "jquery": "^3.4.1",
     "mint-ui": "^2.2.13",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "url-loader": "^2.2.0",
     "vue": "^2.6.10",
     "vue-resource": "^1.5.1",
